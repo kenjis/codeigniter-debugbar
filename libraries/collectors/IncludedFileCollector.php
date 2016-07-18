@@ -31,22 +31,22 @@ class IncludedFileCollector extends DataCollector implements DataCollectorInterf
     {
         $files = array();
         $data = get_included_files();
-        $len = strlen(APPPATH);
 
         foreach ($data as $file_path) {
             // Include only APPPATH
-            if (substr($file_path, 0, $len) === APPPATH) {
-                $file = substr($file_path, $len);
-                // Except third_party/
-                if (substr($file, 0, 11) === 'third_party') {
-                    continue;
-                }
-                $files[] = 'APPPATH/'.$file;
+            if (strpos($file_path, APPPATH) !== false && strpos($file_path, APPPATH.'third_party') === false) {
+                $file = str_replace(APPPATH, '', $file_path);
+                $files[] = array(
+                    'message' => "'".$file."',",
+                    'is_string' => true,
+                );
             }
         }
 
-        sort($files);
-        return $files;
+        return array(
+            'messages' => $files,
+            'count' => count($files),
+        );
     }
 
     /**
@@ -64,10 +64,14 @@ class IncludedFileCollector extends DataCollector implements DataCollectorInterf
     {
         return array(
             "file" => array(
-                "icon" => "file",
-                "widget" => "PhpDebugBar.Widgets.VariableListWidget",
-                "map" => "file",
+                "icon" => "files-o",
+                "widget" => "PhpDebugBar.Widgets.MessagesWidget",
+                "map" => "file.messages",
                 "default" => "{}"
+            ),
+            "file:badge" => array(
+                "map" => "file.count",
+                "default" => "null"
             )
         );
     }

@@ -97,11 +97,6 @@ class CI_Profiler
         $this->CI =& get_instance();
         $this->CI->load->language('profiler');
 
-        if (isset($config['query_toggle_count'])) {
-            $this->_query_toggle_count = (int) $config['query_toggle_count'];
-            unset($config['query_toggle_count']);
-        }
-
         // default all sections to display
         foreach ($this->_available_sections as $section) {
             if ( ! isset($config[$section])) {
@@ -162,7 +157,7 @@ class CI_Profiler
      */
     protected function _compile_messages()
     {
-        if ( ! isset($this->CI->console)) {
+        if (!isset($this->CI->console)) {
             return;
         }
 
@@ -181,7 +176,7 @@ class CI_Profiler
      */
     protected function _compile_exceptions()
     {
-        if ( ! isset($this->CI->console)) {
+        if (!isset($this->CI->console)) {
             return;
         }
 
@@ -421,12 +416,13 @@ class CI_Profiler
         . 'nsC/LB6aEramWe4mfGEAKMXzssZAj3xHHsTkBSIWIDyAaHv7VpVwR5TX9pI3VY4PbkVfAar7JdIb8RKv8XymPVDxvdUqqBiVdfgMrfyBOe32IucVU7bG'
         . 'zWKWcxN892KNfCyzPozyTtWdhfSV0Tdx15JestFqfxWefxmfbKQKvhK4Gtrqm37HgLe1eP9DbQ+mvIXn5e5WieGyDZJ4D3WtrTPXaZ9Q0ylxLRBmo+C/'
         . 'Ue4yqWjnoZ1OFeVNsyP2X43gh44rrD1SWuGr3SVERpCkP8ZfwUYAL2WpEUbzbyiAAAAAElFTkSuQmCC") no-repeat scroll 5px 4px #efefef;'
-        . '}';
+        . '}'
+        . '.phpdebugbar-widgets-value.phpdebugbar-widgets-warning { color: #f39c12; }';
         echo '</style>'."\n";
         echo '<script type="text/javascript">'."\n";
         $renderer->dumpJsAssets();
         echo '</script>'."\n";
 
-        return ob_get_clean();
+        return str_replace(['PhpDebugbarFontAwesome', 'phpdebugbar-fa'], ['FontAwesome', 'fa'], ob_get_clean());
     }
 }
