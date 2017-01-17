@@ -356,7 +356,7 @@ class CI_Profiler
         $renderer = $this->debugbar->getJavascriptRenderer();
         $renderer->setOptions($this->config);
         $renderer->disableVendor('fontawesome');
-        // @FIXME dependency //cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/fonts/
+        // @TODO: dependency "//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/fonts/"
         $renderer->addAssets(['font-awesome.min.css'], [], __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'Resources');
         $is_ajax = $this->CI->input->is_ajax_request();
         $initialize = (!$is_ajax) ? true : false;
