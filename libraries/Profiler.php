@@ -57,6 +57,13 @@ class CI_Profiler
     );
 
     /**
+     * List of profiler sections to display
+     *
+     * @var array
+     */
+    protected $_compile_;
+
+    /**
      * Number of queries to show before making the additional queries togglable
      *
      * @var int
@@ -100,7 +107,7 @@ class CI_Profiler
         // default all sections to display
         foreach ($this->_available_sections as $section) {
             if ( ! isset($config[$section])) {
-                $this->_compile_{$section} = true;
+                $this->_compile_[$section] = true;
             }
         }
 
@@ -110,7 +117,7 @@ class CI_Profiler
     /**
      * Set Sections
      *
-     * Sets the private _compile_* properties to enable/disable Profiler sections
+     * Sets the private _compile_ properties to enable/disable Profiler sections
      *
      * @param mixed $config
      * @return void
@@ -124,7 +131,7 @@ class CI_Profiler
 
         foreach ($config as $method => $enable) {
             if (in_array($method, $this->_available_sections)) {
-                $this->_compile_{$method} = ($enable !== false);
+                $this->_compile_[$method] = ($enable !== false);
             }
         }
     }
@@ -333,7 +340,7 @@ class CI_Profiler
     public function run()
     {
         foreach ($this->_available_sections as $section) {
-            if ($this->_compile_{$section} !== false) {
+            if ($this->_compile_[$section] !== false) {
                 $func = '_compile_'.$section;
                 $this->{$func}();
             }
